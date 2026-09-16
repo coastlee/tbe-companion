@@ -31,11 +31,12 @@ pub fn load_config_from_env(env: &HashMap<String, String>) -> Result<AppConfig, 
 
     let guild_id = env
         .get("DISCORD_GUILD_ID")
+        .map(|value| value.trim())
+        .filter(|value| !value.is_empty())
         .map(|value| {
             value
-                .trim()
                 .parse::<u64>()
-                .map_err(|_| ConfigError::InvalidGuildId(value.clone()))
+                .map_err(|_| ConfigError::InvalidGuildId(value.to_owned()))
         })
         .transpose()?;
 
@@ -162,6 +163,17 @@ mod tests {
         .unwrap();
 
         assert_eq!(config.guild_id, Some(1_234_567_890));
+    }
+
+    #[test]
+    fn load_config_treats_blank_guild_id_as_absent() {
+        let config = load_config_from_env(&env(&[
+            ("DISCORD_TOKEN", "abc123"),
+            ("DISCORD_GUILD_ID", "   "),
+        ]))
+        .unwrap();
+
+        assert_eq!(config.guild_id, None);
     }
 
     #[test]
