@@ -1,0 +1,15 @@
+[package]
+name = "tbe-companion"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.76"
+
+[dependencies]
+anyhow = "1.0"
+serenity = { version = "0.12.5", default-features = false, features = ["builder", "client", "gateway", "http", "model", "rustls_backend"] }
+tokio = { version = "1.40", features = ["macros", "rt-multi-thread", "signal"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+[dev-dependencies]
+assert_matches = "1.5"
