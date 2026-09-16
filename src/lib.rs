@@ -8,6 +8,7 @@ use serenity::async_trait;
 use tracing::{error, info};
 
 const ABOUT_RESPONSE: &str = "TBE Companion is online and ready to help.";
+type SerenityResult<T> = Result<T, Box<serenity::Error>>;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct AppConfig {
@@ -31,11 +32,12 @@ pub fn load_config_from_env(env: &HashMap<String, String>) -> Result<AppConfig, 
 
     let guild_id = env
         .get("DISCORD_GUILD_ID")
+        .map(|value| value.trim())
+        .filter(|value| !value.is_empty())
         .map(|value| {
             value
-                .trim()
                 .parse::<u64>()
-                .map_err(|_| ConfigError::InvalidGuildId(value.clone()))
+                .map_err(|_| ConfigError::InvalidGuildId(value.to_owned()))
         })
         .transpose()?;
 
@@ -73,18 +75,21 @@ impl DiscordHandler {
         Self { guild_id }
     }
 
-    async fn register_commands(&self, ctx: &Context) -> serenity::Result<()> {
+    async fn register_commands(&self, ctx: &Context) -> SerenityResult<()> {
         let commands = application_commands();
 
         match self.guild_id {
             Some(guild_id) => {
                 GuildId::new(guild_id)
                     .set_commands(&ctx.http, commands)
-                    .await?;
+                    .await
+                    .map_err(Box::new)?;
                 info!(guild_id, "registered guild application commands");
             }
             None => {
-                Command::set_global_commands(&ctx.http, commands).await?;
+                Command::set_global_commands(&ctx.http, commands)
+                    .await
+                    .map_err(Box::new)?;
                 info!("registered global application commands");
             }
         }
@@ -162,6 +167,17 @@ mod tests {
         .unwrap();
 
         assert_eq!(config.guild_id, Some(1_234_567_890));
+    }
+
+    #[test]
+    fn load_config_treats_blank_guild_id_as_absent() {
+        let config = load_config_from_env(&env(&[
+            ("DISCORD_TOKEN", "abc123"),
+            ("DISCORD_GUILD_ID", "   "),
+        ]))
+        .unwrap();
+
+        assert_eq!(config.guild_id, None);
     }
 
     #[test]

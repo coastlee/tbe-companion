@@ -26,7 +26,7 @@ export DISCORD_GUILD_ID="your-test-server-id"
 
 `DISCORD_TOKEN` is required. `DISCORD_GUILD_ID` is optional. Keeping it set
 during development makes slash command updates appear immediately in that guild.
-If it is omitted, the app registers global commands.
+If it is omitted or left blank, the app registers global commands.
 
 ## Run
 

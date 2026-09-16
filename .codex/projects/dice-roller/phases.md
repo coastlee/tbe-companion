@@ -42,19 +42,19 @@ Notes:
 
 Goal: Create the smallest Discord bot application that can start cleanly.
 
-- [ ] Load `DISCORD_TOKEN` from environment.
-- [ ] Optionally load `DISCORD_GUILD_ID` for fast guild-scoped command
+- [x] Load `DISCORD_TOKEN` from environment.
+- [x] Optionally load `DISCORD_GUILD_ID` for fast guild-scoped command
   registration during development.
-- [ ] Start a Serenity client with the minimum required gateway intents.
-- [ ] Add logging/tracing for bot startup and Discord connection lifecycle.
-- [ ] Add tests for configuration loading and validation.
-- [ ] Update README setup and run instructions.
+- [x] Start a Serenity client with the minimum required gateway intents.
+- [x] Add logging/tracing for bot startup and Discord connection lifecycle.
+- [x] Add tests for configuration loading and validation.
+- [x] Update README setup and run instructions.
 
 Acceptance criteria:
 
-- [ ] `cargo test` passes.
+- [x] `cargo test` passes.
 - [ ] The bot process starts with valid environment variables.
-- [ ] Missing or invalid configuration produces clear errors.
+- [x] Missing or invalid configuration produces clear errors.
 
 ## Phase 2 - Hello World Slash Command PR
 
