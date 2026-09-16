@@ -8,6 +8,7 @@ use serenity::async_trait;
 use tracing::{error, info};
 
 const ABOUT_RESPONSE: &str = "TBE Companion is online and ready to help.";
+type SerenityResult<T> = Result<T, Box<serenity::Error>>;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct AppConfig {
@@ -74,18 +75,21 @@ impl DiscordHandler {
         Self { guild_id }
     }
 
-    async fn register_commands(&self, ctx: &Context) -> serenity::Result<()> {
+    async fn register_commands(&self, ctx: &Context) -> SerenityResult<()> {
         let commands = application_commands();
 
         match self.guild_id {
             Some(guild_id) => {
                 GuildId::new(guild_id)
                     .set_commands(&ctx.http, commands)
-                    .await?;
+                    .await
+                    .map_err(Box::new)?;
                 info!(guild_id, "registered guild application commands");
             }
             None => {
-                Command::set_global_commands(&ctx.http, commands).await?;
+                Command::set_global_commands(&ctx.http, commands)
+                    .await
+                    .map_err(Box::new)?;
                 info!("registered global application commands");
             }
         }
