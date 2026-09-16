@@ -4,6 +4,7 @@ A small Rust Discord app built with Serenity.
 
 ## Commands
 
+- `/hello` replies with `Hello, world!`
 - `/ping` replies with `Pong!`
 - `/about` replies with a short app status message
 

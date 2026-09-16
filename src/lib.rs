@@ -8,6 +8,7 @@ use serenity::async_trait;
 use tracing::{error, info};
 
 const ABOUT_RESPONSE: &str = "TBE Companion is online and ready to help.";
+const HELLO_RESPONSE: &str = "Hello, world!";
 type SerenityResult<T> = Result<T, Box<serenity::Error>>;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -49,6 +50,7 @@ pub fn load_config_from_env(env: &HashMap<String, String>) -> Result<AppConfig, 
 
 pub fn command_response(command_name: &str) -> &'static str {
     match command_name {
+        "hello" => HELLO_RESPONSE,
         "ping" => "Pong!",
         "about" => ABOUT_RESPONSE,
         _ => "Unknown command.",
@@ -57,6 +59,7 @@ pub fn command_response(command_name: &str) -> &'static str {
 
 pub fn application_commands() -> Vec<CreateCommand> {
     vec![
+        CreateCommand::new("hello").description("Print a hello world response."),
         CreateCommand::new("ping").description("Check whether TBE Companion is running."),
         CreateCommand::new("about").description("Show a short status message for TBE Companion."),
     ]
@@ -193,6 +196,7 @@ mod tests {
 
     #[test]
     fn command_response_handles_supported_commands() {
+        assert_eq!(command_response("hello"), "Hello, world!");
         assert_eq!(command_response("ping"), "Pong!");
         assert_eq!(
             command_response("about"),

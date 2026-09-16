@@ -60,10 +60,10 @@ Acceptance criteria:
 
 Goal: Prove slash command registration and interaction responses.
 
-- [ ] Register a simple guild-scoped slash command during development.
-- [ ] Add a command such as `/hello`, `/ping`, or `/about`.
-- [ ] Respond with compact plain text.
-- [ ] Add unit tests for command response routing.
+- [x] Register a simple guild-scoped slash command during development.
+- [x] Add a command such as `/hello`, `/ping`, or `/about`.
+- [x] Respond with compact plain text.
+- [x] Add unit tests for command response routing.
 - [ ] Verify the bot is invitable, visible on the Discord server, and online.
 
 Acceptance criteria:
