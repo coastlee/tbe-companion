@@ -26,12 +26,12 @@ should run 24/7, without requiring near-perfect uptime.
 
 Goal: Establish a clean baseline for development and review.
 
-- [ ] Confirm the repository has an initial `main` commit so feature branches can
+- [x] Confirm the repository has an initial `main` commit so feature branches can
   branch from `main`.
-- [ ] Create a feature branch for the bot skeleton work.
-- [ ] Keep `.env.example`, setup docs, and local run instructions current.
-- [ ] Add or verify basic CI for `cargo fmt`, `cargo clippy`, and `cargo test`.
-- [ ] Document required Discord environment variables.
+- [x] Create a feature branch for the bot skeleton work.
+- [x] Keep `.env.example`, setup docs, and local run instructions current.
+- [x] Add or verify basic CI for `cargo fmt`, `cargo clippy`, and `cargo test`.
+- [x] Document required Discord environment variables.
 
 Notes:
 
